@@ -1,0 +1,301 @@
+#!/usr/bin/perl
+
+use File::Copy;
+use Math::Complex;
+
+
+$size = 26;
+$periodic = 0;
+my $filename = 'interall.def';
+
+open my $out,  '>',  $filename or die "Could not open report$!";
+$sep = "======================\n";
+print $out $sep;
+print $out "NInterAll      ";
+$num_lines = 20 * ($size+$periodic);
+print $out $num_lines;
+print $out "\n";
+print $out $sep;
+print $out "========zInterAll=====\n";
+print $out $sep;
+
+# construct a loop
+foreach(0..($size+$periodic-1)){
+#    a 
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+#     b
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+#     c
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%25.15f", (-1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+#     d
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+
+#     e
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     f
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (2/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     g
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     h
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%25.15f", (-1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+
+#     i
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+#     j
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     k 
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 2;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%25.15f", (1/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     l
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (2/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     m
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%25.15f", (2/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     n
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 0;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%25.15f", (2/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     o
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%25.15f", (4/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+#     p
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%25.15f", (4/3);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     q
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%25.15f", (1);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     r
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 0;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (1);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     s
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 2 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%25.15f", (1);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+
+
+#     t
+    printf $out "%5d", $_ ;
+    printf $out "%6d", 0 ;
+    printf $out "%6d", $_ ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 1 ;
+    printf $out "%6d", ($_+1) ;
+    printf $out "%6d", 0 ;
+    printf $out "%25.15f", (1);
+    printf $out "%26.15f", 0;
+    printf $out "\n";
+}
+
+exit;

@@ -7,26 +7,28 @@ use Math::Complex;
 $size = 6
 copy "interall_c.def", "interall.def";
 $inter = "interall.def";
-open(file_r, '>>', $interall.def) or die "Could not open report$!";
+open my $in,  '<',  $interall  or die "Could not open report$!";
+
+
+# read # of lines
+while 
+
+# replace # of lines
 
 # construct a loop
-#
+
+
 # separate each sector
 
 
 print file_r "target = ", $gap_0, "\n";
 print file_r "Jprime, gap\n";
 close(file_r);
-
-
-
 # 1st iteration:
 
-
-$coeff1 = $jprime_lower * 0.5;
 $coeff2 = $jprime_lower / sqrt(2);
 $str1 = sprintf("%.15f", $coeff1);
-$str2 = sprintf("%.15f", $coeff2);
+
 rename($inter, $inter.'.bak');
 open(IN, '<'.$inter.'.bak') or die $!;
 open(OUT, '>'.$inter) or die $!;
@@ -58,11 +60,9 @@ close(file_r);
 
 # 2nd iteration:
 $jprime_upper = 0.7;  #  input
-
 $coeff1 = $jprime_upper * 0.5;
-$coeff2 = $jprime_upper / sqrt(2);
 $str1 = sprintf("%.15f", $coeff1);
-$str2 = sprintf("%.15f", $coeff2);
+
 rename($inter, $inter.'.bak');
 open(IN, '<'.$inter.'.bak') or die $!;
 open(OUT, '>'.$inter) or die $!;
@@ -81,7 +81,6 @@ system '../../build/src/HPhi -e namelist.def';
 $file = `cat output/zvo_energy.dat`;
 @data = split(/\n\s*\n/, $file);
 $blk1 = $data[0];
-$blk2 = $data[1];
 
 $energy1 = $blk1 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk1\n";
 $energy2 = $blk2 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk2\n";
