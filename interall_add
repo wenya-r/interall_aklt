@@ -1,0 +1,145 @@
+#!/opt/perl/5.16.3/bin/perl
+
+use File::Copy;
+use Math::Complex;
+
+
+$size = 6
+copy "interall_c.def", "interall.def";
+$inter = "interall.def";
+open(file_r, '>>', $interall.def) or die "Could not open report$!";
+
+# construct a loop
+#
+# separate each sector
+
+
+print file_r "target = ", $gap_0, "\n";
+print file_r "Jprime, gap\n";
+close(file_r);
+
+
+
+# 1st iteration:
+
+
+$coeff1 = $jprime_lower * 0.5;
+$coeff2 = $jprime_lower / sqrt(2);
+$str1 = sprintf("%.15f", $coeff1);
+$str2 = sprintf("%.15f", $coeff2);
+rename($inter, $inter.'.bak');
+open(IN, '<'.$inter.'.bak') or die $!;
+open(OUT, '>'.$inter) or die $!;
+while (<IN>){
+    $_ =~ s/$str1_old/$str1/;
+    $_ =~ s/$str2_old/$str2/;
+    print OUT $_;
+}
+$str1_old = $str1;
+$str2_old = $str2;
+close(IN);
+close(OUT);
+system '../../build/src/HPhi -e namelist.def';
+
+$file = `cat output/zvo_energy.dat`;
+@data = split(/\n\s*\n/, $file);
+$blk1 = $data[0];
+$blk2 = $data[1];
+
+$energy1 = $blk1 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk1\n";
+$energy2 = $blk2 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk2\n";
+print "$energy1\n";
+print "$energy2\n";
+print "\n";
+$e_gap1 =  $energy2 - $energy1;
+open(file_r, '>>', $report) or die "Could not open report$!";
+print file_r "$jprime_lower \t $e_gap1 \n";
+close(file_r);
+
+# 2nd iteration:
+$jprime_upper = 0.7;  #  input
+
+$coeff1 = $jprime_upper * 0.5;
+$coeff2 = $jprime_upper / sqrt(2);
+$str1 = sprintf("%.15f", $coeff1);
+$str2 = sprintf("%.15f", $coeff2);
+rename($inter, $inter.'.bak');
+open(IN, '<'.$inter.'.bak') or die $!;
+open(OUT, '>'.$inter) or die $!;
+
+while (<IN>){
+    $_ =~ s/$str1_old/$str1/g;
+    $_ =~ s/$str2_old/$str2/g;
+    print OUT $_;
+}
+$str1_old = $str1;
+$str2_old = $str2;
+close(IN);
+close(OUT);
+system '../../build/src/HPhi -e namelist.def';
+
+$file = `cat output/zvo_energy.dat`;
+@data = split(/\n\s*\n/, $file);
+$blk1 = $data[0];
+$blk2 = $data[1];
+
+$energy1 = $blk1 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk1\n";
+$energy2 = $blk2 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk2\n";
+print "$energy1\n";
+print "$energy2\n";
+print "\n";
+$e_gap2 =  $energy2 - $energy1;
+open(file_r, '>>', $report) or die "Could not open report$!";
+print file_r "$jprime_upper \t $e_gap2 \n";
+close(file_r);
+
+# 3 and 3+ iterations:
+$e_gap = $e_gap2;
+while (abs($e_gap-$gap_0) > $precision){
+    $jprime3 = 0.5 * ($jprime_lower + $jprime_upper);
+
+    $coeff1 = $jprime3 * 0.5;
+    $coeff2 = $jprime3 / sqrt(2);
+    $str1 = sprintf("%.15f", $coeff1);
+    $str2 = sprintf("%.15f", $coeff2);
+    rename($inter, $inter.'.bak');
+    open(IN, '<'.$inter.'.bak') or die $!;
+    open(OUT, '>'.$inter) or die $!;
+    $cnt1 = 0;
+    $cnt2 = 0;
+    while (<IN>){
+        $_ =~ s/$str1_old/$str1/g;
+        $_ =~ s/$str2_old/$str2/g;
+        print OUT $_;
+    }
+    $str1_old = $str1;
+    $str2_old = $str2;
+    close(IN);
+    close(OUT);
+    system '../../build/src/HPhi -e namelist.def';
+    $file = `cat output/zvo_energy.dat`;
+    @data = split(/\n\s*\n/, $file);
+    $blk1 = $data[0];
+    $blk2 = $data[1];
+    
+    $energy1 = $blk1 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk1\n";
+    $energy2 = $blk2 =~ /Energy\s*([0-9\.\+\-eE]+)/? $1 :die "bad block $blk2\n";
+    $e_gap =  $energy2 - $energy1;
+    open(file_r, '>>', $report) or die "Could not open report$!";
+    if ($e_gap > $gap_0){
+        $jprime_upper = $jprime3;
+        print file_r "upper bound = $jprime3\n";
+    }
+    else{
+        $jprime_lower = $jprime3;
+        print file_r "lower bound = $jprime3\n";
+    }
+    print file_r "$jprime3 \t $e_gap \n";
+    close(file_r);
+}
+
+open(file_r, '>>', $report) or die "Could not open report$!";
+print file_r "Done J = $jprime3 \t $e_gap \n";
+close(file_r);
+
+exit;
